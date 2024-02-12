@@ -10,17 +10,20 @@ if (window.caches) {
   //Save files in cache "cache-v1"
 
   caches.open("cache-v1").then((cache) => {
+    cache.add("/index.html");
     cache
       .addAll([
-        "./index.html",
+      
         "logo192.png",
         "logo512.png",
         "./pages/offline.html",
       ]).then(() => {
-        cache.delete("index.html")
+        //Intercept a file for another
+        cache.put("index.html", new Response(`Intercepted file`));
       })
-      cache.match("index.html").then(res => {
-        res.text().then(console.log)
-      })
+      //Get all caches in the app
+        caches.keys().then((keys) => {
+            console.log(keys);
+        });
   });
 }
